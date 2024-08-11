@@ -2,15 +2,34 @@
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
+It is a basic example of using the CometD protocol with Quarkus.
+The code is based on the example from the CometD documentation: <https://docs.cometd.org/current8/reference/#_primer>.
+
+## Goals
+The goal of this project is to provide a simple example of using the CometD protocol with Quarkus and to provide a starting point for further development.
+
+This build should function in both Maven and Gradle.
+
 If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
 
 ## Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:
 
-```shell script
+
+<details>
+<summary>Running application in dev mode</summary>
+```shell script CLI
+quarkus dev
+```
+```shell script Gradle
+./gradlew quarkusDev
+```
+```shell script Maven
 ./mvnw compile quarkus:dev
 ```
+</details>
+
 
 > **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
 
