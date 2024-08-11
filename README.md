@@ -6,6 +6,7 @@ It is a basic example of using the CometD protocol with Quarkus.
 The code is based on the example from the CometD documentation: <https://docs.cometd.org/current8/reference/#_primer>.
 
 ## Goals
+
 The goal of this project is to provide a simple example of using the CometD protocol with Quarkus and to provide a starting point for further development.
 
 This build should function in both Maven and Gradle.
@@ -15,7 +16,6 @@ If you want to learn more about Quarkus, please visit its website: <https://quar
 ## Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:
-
 
 <details>
 <summary>Running application in dev mode</summary>
@@ -30,8 +30,7 @@ quarkus dev
 ```
 </details>
 
-
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+> **_NOTE:_** Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
 
 ## Packaging and running the application
 
@@ -73,4 +72,3 @@ You can then execute your native executable with: `./target/cometd-quarkus-1.0.0
 If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
 
 ## Related Guides
-

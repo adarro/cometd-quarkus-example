@@ -1,11 +1,58 @@
-<html>
-<body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/cometd@8.0.3/cometd.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>CometD with unpkg</title>
+  </head>
+  <body>
+    <h1>CometD Example</h1>
+    <div id="cometDStatus">Uknown</div>
 
-<form action="welcome" method="get">
-    Enter your name <input type="text" name="name"><br>
+    <script type="text/jaavascript">
+      >
+              const stat = document.getElementById("cometDStatus");
 
-    <input type="submit" value="login">
-</form>
+              stat.innerHTML ="CometD script loaded";
+              // console.log("CometD loaded");
+              // Create the CometD object
+              var cometd = new CometD();
+              stat.innerHTML = "after new cometd";
 
-</body>
+              // Optionally, register an extension
+              cometd.registerExtension('timestamp', new TimeStampExtension());
+
+              // Configure the CometD object
+              // cometd.configure({
+              //     url: 'http://localhost/cometd'
+              // });
+
+              // Handshake with the server
+              cometd.handshake(function(reply) {
+                  if (reply.successful) {
+                      stat.innerHTML ="CometD handshake successful";
+                      // Subscribe to receive messages from the server
+                      cometd.subscribe('/topic', function(message) {
+                          var dataFromServer = message.data;
+                          // Use dataFromServer
+                          console.log(dataFromServer);
+                      });
+                  }
+                  else {
+                      stat.innerHTML ="CometD handshake failed";
+                      // Handle handshake failure
+                  }
+              });
+    </script>
+  </body>
 </html>

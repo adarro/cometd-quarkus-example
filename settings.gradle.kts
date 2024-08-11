@@ -4,7 +4,7 @@
  * This project uses @Incubating APIs which are subject to change.
  */
 
- pluginManagement {
+pluginManagement {
     val quarkusPluginVersion: String by settings
     val quarkusPluginId: String by settings
     repositories {
@@ -15,6 +15,6 @@
     plugins {
         id(quarkusPluginId) version quarkusPluginVersion
     }
- }
+}
 
 rootProject.name = "cometd-quarkus"

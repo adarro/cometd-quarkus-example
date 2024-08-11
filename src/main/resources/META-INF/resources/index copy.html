@@ -1,0 +1,106 @@
+<html>
+  <head>
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <!-- <script src="https://unpkg.com/browse/cometd@8.0.3/" crossorigin></script> -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="cometDStatus">Uknown</div>
+    <script src="https://unpkg.com/cometd@8.0.3/cometd.js"></script>
+    <script type="text/babel">
+      // import {CometD} from "CometD";
+
+      window.addEventListener("DOMContentLoaded", () => {
+        const stat = document.getElementById("cometDStatus");
+        const data = ReactDOM.createRoot(stat);
+        data.render("<p>CometD Connection Status</p>");
+
+        const cometd = new CometD();
+
+        let _connected = false;
+
+        function _connectionEstablished() {
+          return "<p>CometD Connection Established</p>";
+        }
+
+        function _connectionBroken() {
+          return "<p>CometD Connection Broken</p>";
+        }
+
+        function _connectionClosed() {
+          return "<p>CometD Connection Closed</p>";
+        }
+
+        // Function that manages the connection status with the Bayeux server.
+        function _metaConnect(message) {
+          if (cometd.isDisconnected()) {
+            _connected = false;
+            data.render(<_connectionClosed />);
+            return;
+          }
+
+          const wasConnected = _connected;
+          _connected = message.successful === true;
+          if (!wasConnected && _connected) {
+            _data.render(<_connectionEstablished />);
+          } else if (wasConnected && !_connected) {
+            data.render(<_connectionBroken />);
+          }
+        }
+
+        // Function invoked when first contacting the server and
+        // when the server has lost the state of this client.
+        function _metaHandshake(handshake) {
+          if (handshake.successful === true) {
+            cometd.batch(() => {
+              cometd.subscribe("/hello", (message) => {
+                document.getElementById("body").innerHTML +=
+                  `<div>Server Says: ${message.data.greeting} </div>`;
+              });
+              // Publish on a service channel since the message is for the server only
+              cometd.publish("/service/hello", { name: "World" });
+            });
+          }
+        }
+
+        // Disconnect when the page unloads.
+        window.onbeforeunload = () => cometd.disconnect();
+
+        const cometURL =
+          location.protocol +
+          "//" +
+          location.host +
+          config.contextPath +
+          "/cometd";
+        cometd.configure({
+          url: cometURL,
+          logLevel: "debug",
+        });
+
+        cometd.addListener("/meta/handshake", _metaHandshake);
+        cometd.addListener("/meta/connect", _metaConnect);
+
+        cometd.handshake();
+      });
+    </script>
+
+    <div id="mydiv"></div>
+
+    <script type="text/babel">
+      function Hello() {
+        return <h1>Hello ES6 World!</h1>;
+      }
+
+      const container = document.getElementById("mydiv");
+      const root = ReactDOM.createRoot(container);
+      root.render(<Hello />);
+    </script>
+  </body>
+</html>
